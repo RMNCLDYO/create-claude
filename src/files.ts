@@ -34,7 +34,6 @@ async function verifyBackup(originalPath: string, backupPath: string): Promise<v
   const stats = await fs.stat(originalPath);
   
   if (stats.isDirectory()) {
-    // For directories, verify structure matches
     const originalFiles = await getAllFiles(originalPath);
     const backupFiles = await getAllFiles(backupPath);
     
