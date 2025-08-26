@@ -165,6 +165,6 @@ export class ProgressIndicator {
   }
 
   cleanup(): void {
-    // Ignore
+    // Ignore cleanup
   }
 }
