@@ -27,3 +27,5 @@ Thumbs.db
 # npm package files
 *.log
 
+# local settings
+!settings.local.json
