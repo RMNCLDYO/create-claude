@@ -211,7 +211,6 @@ export async function init(
   const progress = silent ? null : new ProgressIndicator();
   
   try {
-    // Show disclaimer (not in dry-run or silent mode)
     if (!dryRun && !silent) {
       console.log('⚠️  DISCLAIMER: Always backup your project first. Use at your own risk.');
     }
