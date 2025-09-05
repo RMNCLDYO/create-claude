@@ -56,7 +56,9 @@
       "Bash(:*mkfs:*)",
       "Bash(:*fdisk:*)",
       "mcp__filesystem__delete*",
-      "mcp__filesystem__move*"
+      "mcp__filesystem__move*",
+      "mcp__*__write*",
+      "mcp__*__delete*"
     ],
     "defaultMode": "bypassPermissions"
   },
