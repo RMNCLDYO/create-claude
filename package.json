@@ -94,7 +94,7 @@
   ],
   "preferGlobal": false,
   "devDependencies": {
-    "@types/node": "^20.19.11",
+    "@types/node": "^24.3.1",
     "typescript": "^5.3.0"
   }
 }
