@@ -85,7 +85,13 @@ jobs:
       - name: Sign package with minisign
         run: |
           if [ ! -f minisign.key.skip ]; then
-            minisign -Sm "$PACKAGE_FILE" -s minisign.key -t "create-claude npm package v$VERSION - $(date -u +%Y-%m-%d)"
+            # Try to sign, but don't fail if key requires password
+            if minisign -Sm "$PACKAGE_FILE" -s minisign.key -t "create-claude npm package v$VERSION - $(date -u +%Y-%m-%d)" 2>/dev/null; then
+              echo "✓ Successfully signed package with minisign"
+            else
+              echo "::warning::Minisign signing failed (key may require password). Continuing without minisign signature."
+              touch minisign.key.skip
+            fi
           else
             echo "::warning::Skipping minisign signature generation"
           fi
