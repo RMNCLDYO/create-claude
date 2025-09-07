@@ -16,6 +16,7 @@ jobs:
       contents: write  # Required for creating releases
       id-token: write  # Required for npm provenance
       attestations: write  # Required for SLSA attestations
+      packages: write  # Required for GitHub Packages
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.12.0
@@ -24,6 +25,7 @@ jobs:
           allowed-endpoints: |
             api.github.com:443
             registry.npmjs.org:443
+            npm.pkg.github.com:443
             github.com:443
             objects.githubusercontent.com:443
             raw.githubusercontent.com:443
@@ -168,6 +170,28 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
+      - name: Configure npm for GitHub Packages
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: '22'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@rmncldyo'
+          
+      - name: Publish to GitHub Packages
+        run: |
+          # Update package name for GitHub Packages (scoped)
+          npm pkg set name="@rmncldyo/create-claude"
+          
+          # Publish to GitHub Packages with provenance
+          npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Restore original package name
+        run: |
+          # Restore original package name for npm registry
+          npm pkg set name="create-claude"
+          
       - name: Create comprehensive GitHub Release
         uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974 # v2.3.2
         with:
@@ -176,9 +200,14 @@ jobs:
           body: |
             ## 🚀 Release ${{ github.ref_name }}
             
-            **Install:**
+            **Install from npm:**
             ```bash
             npm install -g create-claude@${{ github.ref_name }}
+            ```
+            
+            **Install from GitHub Packages:**
+            ```bash
+            npm install -g @rmncldyo/create-claude@${{ github.ref_name }} --registry=https://npm.pkg.github.com
             ```
             
             ## 🔐 Security & Verification
