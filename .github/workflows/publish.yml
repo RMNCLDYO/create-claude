@@ -37,7 +37,7 @@ jobs:
             
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+      - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
@@ -110,21 +110,21 @@ jobs:
           subject-path: ${{ env.PACKAGE_FILE }}
           
       - name: Generate SPDX JSON SBOM
-        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        uses: anchore/sbom-action@8e94d75ddd33f69f691467e42275782e4bfefe84 # v0.20.9
         with:
           path: .
           format: 'spdx-json'
           output-file: 'create-claude-${{ env.VERSION }}.sbom.spdx.json'
           
       - name: Generate CycloneDX JSON SBOM
-        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        uses: anchore/sbom-action@8e94d75ddd33f69f691467e42275782e4bfefe84 # v0.20.9
         with:
           path: .
           format: 'cyclonedx-json'
           output-file: 'create-claude-${{ env.VERSION }}.sbom.cyclonedx.json'
           
       - name: Generate CycloneDX XML SBOM
-        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        uses: anchore/sbom-action@8e94d75ddd33f69f691467e42275782e4bfefe84 # v0.20.9
         with:
           path: .
           format: 'cyclonedx-xml'
@@ -171,7 +171,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
       - name: Configure npm for GitHub Packages
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           node-version: '22'
           registry-url: 'https://npm.pkg.github.com'
@@ -193,7 +193,7 @@ jobs:
           npm pkg set name="create-claude"
           
       - name: Create comprehensive GitHub Release
-        uses: softprops/action-gh-release@6cbd405e2c4e67a21c47fa9e383d020e4e28b836 # v2.3.3
+        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
